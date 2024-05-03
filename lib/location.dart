@@ -1,33 +1,65 @@
-import 'package:bottlend_apps/rewards.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_map/flutter_map.dart';
+import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
+
 import 'home.dart';
 import 'camera.dart';
+import 'rewards.dart';
 import 'profile.dart';
 
-
 class LocationPage extends StatelessWidget {
+  // static final CameraPosition _initialCameraPosition = CameraPosition(
+  //   target: LatLng(37.773972, -122.431297), // Koordinat San Francisco (sesuaikan jika diperlukan)
+  //   zoom: 11.5,
+  // );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Location'),
       ),
-      body: Center(
-        child: Text('This is the Location Page'),
+      body: Stack(
+        children: [
+          FlutterMap(
+            options: MapOptions(
+              center: LatLng(-5.148983, 119.395083), // Koordinat Makassar
+              zoom: 15.5,
+            ),
+            children: [
+              TileLayer(
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                userAgentPackageName: 'com.example.app',
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    point: LatLng(-5.148983, 119.395083),
+                    width: 80,
+                    height: 80,
+                    child: Icon(Icons.business, size: 40, color: Colors.blue),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 1, // sesuaikan dengan index yang ingin Anda aktifkan (Location)
+        currentIndex:
+            1, // sesuaikan dengan indeks yang ingin Anda aktifkan (Location)
         showSelectedLabels: true,
         showUnselectedLabels: false,
-         selectedItemColor: Colors.green, // Warna saat item dipilih
-        unselectedItemColor: Colors.black, 
-          items: [
+        selectedItemColor: Colors.green, // Warna saat item dipilih
+        unselectedItemColor: Colors.black,
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.fmd_good_outlined,),
+            icon: Icon(Icons.fmd_good_outlined),
             label: 'Location',
           ),
           BottomNavigationBarItem(
@@ -44,30 +76,30 @@ class LocationPage extends StatelessWidget {
           ),
         ],
         onTap: (index) {
-          // Tangani navigasi jika diperlukan
           if (index == 0) {
             Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => home()),
-              );
-          } else if (index == 2) { // Tambahkan else if untuk navigasi ke CameraPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => CameraPage()),
-              );
-            }
-            else if (index == 3) { // Tambahkan else if untuk navigasi ke CameraPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => RewardPage()),
-              );
-            }
-            else if (index == 4) { // Tambahkan else if untuk navigasi ke CameraPage
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => ProfilePage()),
-              );
-            }
+              context,
+              MaterialPageRoute(builder: (context) => home()),
+            ); // Kembali ke halaman sebelumnya (home.dart)
+          } else if (index == 2) {
+            // Tambahkan else if untuk navigasi ke halaman kamera
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => CameraPage()),
+            );
+          } else if (index == 3) {
+            // Tambahkan else if untuk navigasi ke halaman reward
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => RewardPage()),
+            );
+          } else if (index == 4) {
+            // Tambahkan else if untuk navigasi ke halaman profil
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProfilePage()),
+            );
+          }
         },
       ),
     );

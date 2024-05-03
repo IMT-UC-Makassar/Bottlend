@@ -67,9 +67,7 @@ class CameraPage extends StatelessWidget {
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
               );
-            } else {
-            // Tambahkan navigasi ke halaman lain jika diperlukan
-          }
+            }
         },
       ),
     );
