@@ -1,4 +1,6 @@
+import 'package:bottlend_apps/pages/historypage.dart';
 import 'package:bottlend_apps/pages/homepage.dart';
+import 'package:bottlend_apps/pages/scannerpage.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -33,7 +35,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HomePage(),
+      home: QRScannerPage(),
     );
   }
 }
