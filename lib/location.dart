@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -9,10 +8,7 @@ import 'rewards.dart';
 import 'profile.dart';
 
 class LocationPage extends StatelessWidget {
-  // static final CameraPosition _initialCameraPosition = CameraPosition(
-  //   target: LatLng(37.773972, -122.431297), // Koordinat San Francisco (sesuaikan jika diperlukan)
-  //   zoom: 11.5,
-  // );
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +44,7 @@ class LocationPage extends StatelessWidget {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex:
-            1, // sesuaikan dengan indeks yang ingin Anda aktifkan (Location)
+            1, 
         showSelectedLabels: true,
         showUnselectedLabels: false,
         selectedItemColor: Colors.green, // Warna saat item dipilih
