@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       body: SingleChildScrollView(
+        //Container Point
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -158,11 +159,13 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
+            //List E-Wallet
             const SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
               child: Wrap(
-                spacing: 20.0,
+                alignment: WrapAlignment.center,
+                spacing: 10.0,
                 runSpacing: 10.0,
                 children: List.generate(
                   buttonList.length,
@@ -258,7 +261,12 @@ class _HomePageState extends State<HomePage> {
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.66),
+                        crossAxisCount: 2,
+                        childAspectRatio: MediaQuery.of(context).size.width /
+                            (4 /
+                                2 *
+                                MediaQuery.of(context).size.height *
+                                0.38)),
                     itemCount: 4,
                     itemBuilder: (context, index) {
                       String description = '';
@@ -297,6 +305,9 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),

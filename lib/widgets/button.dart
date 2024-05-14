@@ -28,12 +28,7 @@ class ButtonList extends StatelessWidget {
             ],
           ),
           child: TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => HomePage()),
-              );
-            },
+            onPressed: () {},
             style: TextButton.styleFrom(
               padding: EdgeInsets.all(6.0),
               shape: RoundedRectangleBorder(
@@ -42,8 +37,8 @@ class ButtonList extends StatelessWidget {
             ),
             child: Image.asset(
               imagePath,
-              width: 50,
-              height: 50,
+              width: 38,
+              height: 49,
             ),
           ),
         ),
