@@ -1,4 +1,6 @@
+import 'package:bottlend_apps/pages/historypage.dart';
 import 'package:bottlend_apps/pages/homepage.dart';
+import 'package:bottlend_apps/pages/scannerpage.dart';
 import 'package:flutter/material.dart';
 import 'home.dart';
 
