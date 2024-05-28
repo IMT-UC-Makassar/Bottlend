@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'location.dart';
-import 'home.dart';
+import 'navbar.dart';
 import 'rewards.dart';
 import 'profile.dart';
 
@@ -43,26 +43,25 @@ class CameraPage extends StatelessWidget {
           ),
         ],
         onTap: (index) {
-          // Tangani navigasi jika diperlukan
           if (index == 0) {
              Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => home()),
-              ); // Kembali ke halaman sebelumnya (home.dart)
-          }else if (index == 1) { // Tambahkan else if untuk navigasi ke CameraPage
+                MaterialPageRoute(builder: (context) => navbar()),
+              ); 
+          }else if (index == 1) { 
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => LocationPage()),
               );
             }
-            else if (index == 3) { // Tambahkan else if untuk navigasi ke CameraPage
+            else if (index == 3) { 
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => RewardPage()),
               );
             }
           
-          else if (index == 4) { // Tambahkan else if untuk navigasi ke CameraPage
+          else if (index == 4) { 
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),

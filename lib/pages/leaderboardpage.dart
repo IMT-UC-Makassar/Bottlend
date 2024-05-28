@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);
@@ -83,93 +84,49 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                 color: Colors.transparent,
                 child: Column(
                   children: [
-                    Container(
-                      height: 50.0,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20.0),
-                        border: Border.all(
-                          color: Color(0xff189218),
-                          width: 2.0,
-                        ),
-                      ),
-                      child: Padding(
+                      Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                _handleTap('Region');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  color: _selectedText == 'Region'
-                                      ? Colors.green
-                                      : Colors.transparent,
-                                ),
+                          child: CupertinoSegmentedControl(
+                            children: {
+                              'Region': Container(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "Region",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
-                                    color: _selectedText == 'Region'
-                                        ? Colors.white
-                                        : Color(0xff189218),
                                     fontSize: 17.0,
                                   ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _handleTap('National');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  color: _selectedText == 'National'
-                                      ? Colors.green
-                                      : Colors.transparent,
-                                ),
+                              'National': Container(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "National",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
-                                    color: _selectedText == 'National'
-                                        ? Colors.white
-                                        : Color(0xff189218),
                                     fontSize: 17.0,
                                   ),
                                 ),
                               ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                _handleTap('Global');
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  color: _selectedText == 'Global'
-                                      ? Colors.green
-                                      : Colors.transparent,
-                                ),
+                              'Global': Container(
+                                padding: EdgeInsets.all(8.0),
                                 child: Text(
                                   "Global",
                                   style: TextStyle(
                                     fontWeight: FontWeight.w900,
-                                    color: _selectedText == 'Global'
-                                        ? Colors.white
-                                        : Color(0xff189218),
                                     fontSize: 17.0,
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        ),
+                            },
+                            onValueChanged: (value) {
+                              _handleTap(value);
+                            },
+                            groupValue: _selectedText,
+                            unselectedColor: Colors.transparent,
+                            selectedColor: Color(0xff189218),
+                          ),
                       ),
-                    ),
                     Container(
                       width: MediaQuery.of(context).size.width * 0.8,
                       height: 300,

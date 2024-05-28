@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'homepage.dart';
 import 'location.dart';
-import 'camera.dart';
-import 'rewards.dart';
+import 'scannerpage.dart';
+import 'leaderboardpage.dart';
 import 'profile.dart';
 
-class home extends StatefulWidget {
-  const home({Key? key}) : super(key: key);
+class navbar extends StatefulWidget {
+  const navbar({Key? key}) : super(key: key);
 
   @override
-  _HomeState createState() => _HomeState();
+  _NavbarState createState() => _NavbarState();
 }
 
-class _HomeState extends State<home> {
+class _NavbarState extends State<navbar> {
   int _currentIndex = 0;
 
   @override
@@ -25,8 +26,8 @@ class _HomeState extends State<home> {
         currentIndex: _currentIndex,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        selectedItemColor: Colors.green, // Warna saat item dipilih
-        unselectedItemColor: Colors.black, // Warna saat item tidak dipilih
+        selectedItemColor: Colors.green, 
+        unselectedItemColor: Colors.black, 
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -37,12 +38,12 @@ class _HomeState extends State<home> {
             label: 'Location',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.center_focus_weak_outlined),
-            label: 'Camera',
+            icon: Icon(Icons.qr_code_scanner),
+            label: 'QR scanner',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.emoji_events_outlined),
-            label: 'Rewards',
+            icon: Icon(Icons.emoji_events),
+            label: 'Leaderboard',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person),
@@ -55,23 +56,28 @@ class _HomeState extends State<home> {
             if (index == 1) {
               Navigator.push(
                 context,
+                MaterialPageRoute(builder: (context) => HomePage()),
+              );
+            }
+            else if (index == 2) { 
+              Navigator.push(
+                context,
                 MaterialPageRoute(builder: (context) => LocationPage()),
               );
             }
-            else if (index == 2) { // Tambahkan else if untuk navigasi ke CameraPage
+            else if (index == 3) { 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CameraPage()),
+                MaterialPageRoute(builder: (context) => QRScannerPage()),
               );
             }
-            else if (index == 3) { // Tambahkan else if untuk navigasi ke CameraPage
+            else if (index == 4) { 
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => RewardPage()),
+                MaterialPageRoute(builder: (context) => LeaderboardPage()),
               );
             }
-
-            else if (index == 4) { // Tambahkan else if untuk navigasi ke CameraPage
+            else if (index == 5) { 
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => ProfilePage()),
