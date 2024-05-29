@@ -1,7 +1,10 @@
 import 'dart:math' as math;
+import 'package:bottlend_apps/pages/historypage.dart';
+import 'package:bottlend_apps/pages/transactionpage.dart';
 import 'package:bottlend_apps/widgets/button.dart';
 import 'package:bottlend_apps/widgets/customcard.dart';
 import 'package:flutter/material.dart';
+import '../app_state.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,40 +22,41 @@ class _HomePageState extends State<HomePage> {
     'Tri',
     'Allobank'
   ];
-  int bottlePoint = 0;
-  int bottleCollected = 0;
   int timeRemaining = 6;
   int bottleDone = 2;
   int bottleRemaining = 8;
 
   @override
   Widget build(BuildContext context) {
+    final appState = AppState.of(context);
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         shape:
             const Border(bottom: BorderSide(color: Colors.black, width: 1.5)),
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             Image.asset('lib/assets/logo.png'),
             Row(
               children: [
-                Container(
-                  child: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.notifications_outlined)),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.notifications_outlined),
+                  color: Colors.black,
                 ),
-                Container(
-                  child: IconButton(
-                      onPressed: () {}, icon: const Icon(Icons.headphones)),
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(Icons.support_agent),
+                  color: Colors.black,
                 ),
               ],
-            )
+            ),
           ],
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
         ),
       ),
       body: SingleChildScrollView(
-        //Container Point
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
@@ -88,7 +92,7 @@ class _HomePageState extends State<HomePage> {
                                 ),
                               ),
                               Text(
-                                bottlePoint.toString(),
+                                appState.bottlePoint.toString(),
                                 style: const TextStyle(
                                   fontSize: 15,
                                   color: Color.fromRGBO(255, 214, 0, 1),
@@ -127,26 +131,35 @@ class _HomePageState extends State<HomePage> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   Text(
-                                    '$bottleCollected Pcs',
+                                    '${appState.bottleCollected} Pcs',
                                     style: const TextStyle(
                                       fontSize: 15,
                                       color: Colors.black,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  Row(
-                                    children: [
-                                      const Text('History',
-                                          style: TextStyle(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.bold)),
-                                      const SizedBox(width: 5),
-                                      Transform.rotate(
-                                        angle: 45 * math.pi / 6,
-                                        child: const Icon(Icons
-                                            .arrow_drop_down_circle_outlined),
-                                      ),
-                                    ],
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  HistoryPage()));
+                                    },
+                                    child: Row(
+                                      children: [
+                                        const Text('History',
+                                            style: TextStyle(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        const SizedBox(width: 5),
+                                        Transform.rotate(
+                                          angle: 45 * math.pi / 6,
+                                          child: const Icon(Icons
+                                              .arrow_drop_down_circle_outlined),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -159,7 +172,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            //List E-Wallet
+            // List E-Wallet
             const SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
@@ -174,9 +187,16 @@ class _HomePageState extends State<HomePage> {
                       ButtonList(
                         imagePath:
                             'lib/assets/${buttonList[index].toLowerCase()}.png',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Transactionpage(
+                                      decrementPoints: appState
+                                          .decrementPoints))); // Pass decrementPoints
+                        },
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       Text(buttonList[index]),
                     ],
                   ),
@@ -189,8 +209,9 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.only(left: 30, right: 30),
               child: Container(
                 decoration: BoxDecoration(
-                  border: Border.all(color: Color.fromRGBO(24, 146, 24, 1)),
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  border:
+                      Border.all(color: const Color.fromRGBO(24, 146, 24, 1)),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                 ),
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
@@ -208,13 +229,13 @@ class _HomePageState extends State<HomePage> {
                               ),
                               Row(
                                 children: [
-                                  SizedBox(width: 18),
+                                  const SizedBox(width: 18),
                                   const Icon(
                                     Icons.access_time_sharp,
                                     color: Colors.red,
                                     size: 12,
                                   ),
-                                  SizedBox(width: 2),
+                                  const SizedBox(width: 2),
                                   Text(
                                     '$timeRemaining Hours Left',
                                     style: const TextStyle(color: Colors.red),
@@ -225,13 +246,13 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         width: MediaQuery.of(context).size.width * 1,
                         child: Text(
                             '$bottleDone of $bottleRemaining deliveries completed'),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       LinearProgressIndicator(
                         value: bottleDone / bottleRemaining,
                         backgroundColor: Colors.white,
@@ -249,17 +270,17 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  const Text(
                     'Bottlend Product',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 20,
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   GridView.builder(
                     shrinkWrap: true,
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: MediaQuery.of(context).size.width /
@@ -305,9 +326,7 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
             ),
-            SizedBox(
-              height: 20,
-            )
+            const SizedBox(height: 20),
           ],
         ),
       ),

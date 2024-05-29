@@ -9,40 +9,40 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(height: 100), // Adjust this to move the content down
-            Text(
+            const SizedBox(height: 100), // Adjust this to move the content down
+            const Text(
               'Register',
               style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text(
+            const SizedBox(height: 10),
+            const Text(
               'Please sign in to continue.',
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
-            SizedBox(height: 40),
+            const SizedBox(height: 40),
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.person),
+                prefixIcon: const Icon(Icons.person),
                 labelText: 'Name',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.email),
+                prefixIcon: const Icon(Icons.email),
                 labelText: 'Email',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 labelText: 'Password',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -50,10 +50,10 @@ class RegisterScreen extends StatelessWidget {
               ),
               obscureText: true,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             TextField(
               decoration: InputDecoration(
-                prefixIcon: Icon(Icons.lock),
+                prefixIcon: const Icon(Icons.lock),
                 labelText: 'Confirm Password',
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -61,7 +61,7 @@ class RegisterScreen extends StatelessWidget {
               ),
               obscureText: true,
             ),
-            SizedBox(height: 30),
+            const SizedBox(height: 30),
             Container(
               width: double.infinity,
               child: ElevatedButton(
@@ -70,10 +70,10 @@ class RegisterScreen extends StatelessWidget {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  padding: EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 onPressed: () {},
-                child: Row(
+                child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text('REGISTER'),
@@ -83,17 +83,17 @@ class RegisterScreen extends StatelessWidget {
                 ),
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Center(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('Already have an account?'),
+                  const Text('Already have an account?'),
                   TextButton(
                     onPressed: () {
                       // Add your login navigation logic here
                     },
-                    child: Text(
+                    child: const Text(
                       'Login',
                       style: TextStyle(color: Colors.green),
                     ),

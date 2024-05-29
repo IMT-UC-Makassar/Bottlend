@@ -1,24 +1,19 @@
+// historypage.dart
 import 'package:flutter/material.dart';
+import '../app_state.dart';
 
 class HistoryPage extends StatelessWidget {
-  final List<Map<String, dynamic>> historyList = [
-    {"action": "20 Bottle", "date": "23/04/2019", "pointChange": "+5 Point"},
-    {
-      "action": "Exchange Gopay Rp. 50.000",
-      "date": "29/04/2021",
-      "pointChange": "-50 Point"
-    },
-    {"action": "97 Bottle", "date": "06/08/2021", "pointChange": "+24 Point"},
-    {"action": "12 Bottle", "date": "23/12/2023", "pointChange": "+3 Point"},
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final historyList = AppState.of(context).historyList;
+
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton(color: Colors.black),
         shape:
             const Border(bottom: BorderSide(color: Colors.black, width: 1.5)),
-        title: Row(
+        title: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
@@ -27,7 +22,7 @@ class HistoryPage extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   color: Color.fromRGBO(24, 146, 24, 1)),
             ),
-            Icon(Icons.refresh)
+            Icon(Icons.refresh, color: Colors.black)
           ],
         ),
       ),
@@ -58,7 +53,7 @@ class HistoryPage extends StatelessWidget {
                     color: Colors.grey.withOpacity(0.5),
                     spreadRadius: 1,
                     blurRadius: 3,
-                    offset: Offset(0, 2),
+                    offset: const Offset(0, 2),
                   ),
                 ],
               ),
@@ -69,27 +64,28 @@ class HistoryPage extends StatelessWidget {
                     Row(
                       children: [
                         Icon(iconData, color: textColor),
-                        SizedBox(width: 8),
+                        const SizedBox(width: 8),
                         Text(
                           action,
-                          style: TextStyle(
+                          style: const TextStyle(
                             fontSize: 18.0,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Text(
                       "Date: $date",
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 14.0,
                         color: Colors.grey,
                       ),
                     ),
-                    SizedBox(height: 4),
+                    const SizedBox(height: 4),
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 4, horizontal: 8),
                       decoration: BoxDecoration(
                         color: textColor.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(4),

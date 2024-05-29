@@ -23,7 +23,7 @@ class CustomCard extends StatelessWidget {
       child: InkWell(
         onTap: onPressed,
         child: Container(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
             color: Colors.white,
@@ -39,26 +39,26 @@ class CustomCard extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Text(
                 description,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(height: 5),
+              const SizedBox(height: 5),
               Text(
                 'Redemption Points: $points',
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               Center(
                 child: ElevatedButton(
                   onPressed: onPressed,
-                  child: Text(
+                  child: const Text(
                     'Exchange',
                     style: TextStyle(
                       color: Colors.white,

@@ -1,21 +1,64 @@
-import 'package:bottlend_apps/pages/homepage.dart';
-import 'package:bottlend_apps/pages/leaderboardpage.dart';
-import 'package:bottlend_apps/pages/location.dart';
-import 'package:bottlend_apps/pages/profile.dart';
-import 'package:bottlend_apps/pages/scannerpage.dart';
+// main.dart
 import 'package:flutter/material.dart';
+import 'app_state.dart';
+import 'pages/homepage.dart';
+import 'pages/leaderboardpage.dart';
+import 'pages/location.dart';
+import 'pages/profile.dart';
+import 'pages/scannerpage.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int bottlePoint = 5000; // Example initial points
+  int bottleCollected = 0;
+  List<Map<String, dynamic>> historyList = [];
+
+  void _incrementPoints() {
+    setState(() {
+      bottlePoint += 10;
+      bottleCollected += 1;
+    });
+  }
+
+  void _decrementPoints(int points) {
+    setState(() {
+      bottlePoint -= points;
+    });
+  }
+
+  void _addHistory(String action, String date, String pointChange) {
+    setState(() {
+      historyList.add({
+        "action": action,
+        "date": date,
+        "pointChange": pointChange,
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainScreen(),
+    return AppState(
+      bottlePoint: bottlePoint,
+      bottleCollected: bottleCollected,
+      historyList: historyList,
+      incrementPoints: _incrementPoints,
+      decrementPoints: _decrementPoints,
+      addHistory: _addHistory,
+      child: const MaterialApp(
+        home: MainScreen(),
+        debugShowCheckedModeBanner: false,
+      ),
     );
   }
 }
@@ -34,7 +77,7 @@ class _MainScreenState extends State<MainScreen> {
     HomePage(),
     LocationPage(),
     QRScannerPage(),
-    LeaderboardPage(),
+    const LeaderboardPage(),
     ProfilePage()
   ];
 
@@ -52,19 +95,19 @@ class _MainScreenState extends State<MainScreen> {
         children: _pages,
       ),
       bottomNavigationBar: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Colors.grey, 
-              width: 0.5, 
+              color: Colors.grey,
+              width: 0.5,
             ),
           ),
         ),
         child: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: _onTabTapped,
-          selectedItemColor: Colors.green, 
-          unselectedItemColor: Colors.black, 
+          selectedItemColor: Colors.green,
+          unselectedItemColor: Colors.black,
           items: const [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),

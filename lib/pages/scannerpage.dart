@@ -1,5 +1,8 @@
+// scannerpage.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import '../app_state.dart';
+import 'package:intl/intl.dart';
 
 class QRScannerPage extends StatefulWidget {
   @override
@@ -12,17 +15,17 @@ class _QRScannerPageState extends State<QRScannerPage> {
   @override
   void initState() {
     super.initState();
-    _scanQR(); // Panggil metode _scanQR saat initState dipanggil
+    _scanQR();
   }
 
   Future<void> _scanQR() async {
     String barcodeScanRes;
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-        "#ff6666", // Warna yang digunakan untuk tanda petunjuk
-        "Batal", // Label tombol untuk membatalkan pemindaian
-        true, // Gunakan mode kamera yang lebih tinggi resolusinya
-        ScanMode.DEFAULT, // Mode pemindaian (default, QR, barcode)
+        "#ff6666",
+        "Batal",
+        true,
+        ScanMode.DEFAULT,
       );
     } catch (e) {
       barcodeScanRes = 'Error: $e';
@@ -33,15 +36,24 @@ class _QRScannerPageState extends State<QRScannerPage> {
     setState(() {
       _result = barcodeScanRes;
     });
+
+    if (barcodeScanRes != '-1') {
+      final appState = AppState.of(context);
+      appState.incrementPoints();
+
+      String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
+      appState.addHistory('Bottle Scanned', formattedDate, '+10 Points');
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         shape:
             const Border(bottom: BorderSide(color: Colors.black, width: 1.5)),
-        title: Text('QR Scanner',
+        title: const Text('QR Scanner',
             style: TextStyle(
                 fontWeight: FontWeight.bold,
                 color: Color.fromRGBO(24, 146, 24, 1))),
@@ -50,42 +62,41 @@ class _QRScannerPageState extends State<QRScannerPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(
+            const Icon(
               Icons.qr_code_scanner,
               size: 100,
-              color:
-                  Color.fromRGBO(24, 146, 24, 1), // Warna ikon QR code scanner
+              color: Color.fromRGBO(24, 146, 24, 1),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Ayo Mulai Pindai!',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 20),
-            Text(
+            const SizedBox(height: 20),
+            const Text(
               'Hasil Scan:',
               style: TextStyle(fontSize: 20),
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             Text(
               _result,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _scanQR,
-        icon: Icon(
+        icon: const Icon(
           Icons.camera_alt,
           color: Colors.white,
         ),
-        label: Text(
+        label: const Text(
           'Scan QR',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor: Color.fromRGBO(24, 146, 24, 1), // Warna tombol
+        backgroundColor: const Color.fromRGBO(24, 146, 24, 1),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );

@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:bottlend_apps/app_state.dart';
 
 class Transactionpage extends StatefulWidget {
-  const Transactionpage({super.key});
+  final void Function(int) decrementPoints;
+
+  const Transactionpage({Key? key, required this.decrementPoints})
+      : super(key: key);
+
   @override
   State<Transactionpage> createState() => _Transactionpagestate();
 }
@@ -27,6 +32,7 @@ class _Transactionpagestate extends State<Transactionpage> {
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       isDismissible: true,
+      barrierColor: Colors.black.withOpacity(0.5), // Added this line
       builder: (BuildContext context) {
         return GestureDetector(
           onTap: () {
@@ -38,7 +44,8 @@ class _Transactionpagestate extends State<Transactionpage> {
               widthFactor: 0.9,
               heightFactor: 0.4,
               child: GestureDetector(
-                onTap: () {}, // Prevent closing the modal when tapping inside it
+                onTap:
+                    () {}, // Prevent closing the modal when tapping inside it
                 child: Container(
                   decoration: BoxDecoration(
                     color: modalColor,
@@ -50,7 +57,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 8.0),
+                            margin: const EdgeInsets.symmetric(vertical: 8.0),
                             width: 60,
                             height: 4,
                             decoration: BoxDecoration(
@@ -66,7 +73,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Your Choice:',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -75,7 +82,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                                     ),
                                     Text(
                                       point,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
                                       ),
@@ -85,7 +92,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.end,
                                   children: [
-                                    Text(
+                                    const Text(
                                       'Cost:',
                                       style: TextStyle(
                                         fontSize: 16,
@@ -94,7 +101,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                                     ),
                                     Text(
                                       value,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w900,
                                         color: Colors.red,
@@ -113,13 +120,13 @@ class _Transactionpagestate extends State<Transactionpage> {
                         child: Row(
                           children: [
                             Text(
-                              'Total Points: 2488',
-                              style: TextStyle(
+                              'Total Points: ${AppState.of(context).bottlePoint}',
+                              style: const TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
-                            SizedBox(width: 8),
+                            const SizedBox(width: 8),
                             ElevatedButton(
                               onPressed: () {
                                 _showConfirmationDialog(context, point, value);
@@ -130,7 +137,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                                   borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
-                              child: Text(
+                              child: const Text(
                                 'Exchange',
                                 style: TextStyle(
                                   color: Colors.white,
@@ -153,7 +160,11 @@ class _Transactionpagestate extends State<Transactionpage> {
     );
   }
 
-  void _showConfirmationDialog(BuildContext context, String point, String value) {
+  void _showConfirmationDialog(
+      BuildContext context, String point, String value) {
+    int pointCost = int.parse(
+        value.split(' ')[0]); // Extract the numeric value from the string
+
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -168,13 +179,13 @@ class _Transactionpagestate extends State<Transactionpage> {
               children: [
                 Text(
                   'Exchange $value into OVO Cash $point?',
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
@@ -183,13 +194,13 @@ class _Transactionpagestate extends State<Transactionpage> {
                         Navigator.of(context).pop(); // Close the dialog
                       },
                       style: TextButton.styleFrom(
-                        side: BorderSide(color: Colors.red),
+                        side: const BorderSide(color: Colors.red),
                         backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'No',
                         style: TextStyle(
                           color: Colors.red,
@@ -199,10 +210,14 @@ class _Transactionpagestate extends State<Transactionpage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                        // Add your exchange logic here
+                        // Decrement points using the passed decrementPoints function
+                        widget.decrementPoints(pointCost);
+                        // Close both the confirmation dialog and the modal
+                        Navigator.of(context)
+                            .pop(); // Close the confirmation dialog
+                        Navigator.of(context).pop(); // Close the bottom modal
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Exchange Successful!')),
+                          const SnackBar(content: Text('Exchange Successful!')),
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -211,7 +226,7 @@ class _Transactionpagestate extends State<Transactionpage> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                       ),
-                      child: Text(
+                      child: const Text(
                         'Yes',
                         style: TextStyle(
                           color: Colors.white,
@@ -232,122 +247,115 @@ class _Transactionpagestate extends State<Transactionpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: Text(
-          'Points Exchange',
-          style: TextStyle(color: Color(0xff189218), fontWeight: FontWeight.w900),
-        ),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(1.0),
-          child: Divider(
-            color: Colors.black,
-            thickness: 1,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+              icon: const Icon(Icons.arrow_back, color: Colors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: const Text(
+            'Points Exchange',
+            style: TextStyle(
+                color: Color(0xff189218), fontWeight: FontWeight.w900),
           ),
-        ),
-        actions: [
-          IconButton(
-              onPressed: _refreshpage,
-              icon: Icon(
-                Icons.refresh,
-                color: Colors.black,
-              ))
-        ],
-      ),
-      body: Column(
-        children: [
-          Center(
-            child: Container(
-              width: 150.0,
-              height: 100.0,
-              child: Image(image: AssetImage('assets/logo_ovo.png')),
+          bottom: const PreferredSize(
+            preferredSize: Size.fromHeight(1.0),
+            child: Divider(
+              color: Colors.black,
+              thickness: 1,
             ),
           ),
-          Center(
-            child: Container(
-              width: MediaQuery.of(context).size.width * 12 / 16,
-              child: TextField(
-                decoration: InputDecoration(
-                  hintText: 'Enter Phone Number',
-                  enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.green),
-                      borderRadius: BorderRadius.circular(10.0)),
+          actions: [
+            IconButton(
+                onPressed: _refreshpage,
+                icon: const Icon(
+                  Icons.refresh,
+                  color: Colors.black,
+                ))
+          ],
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  width: 150.0,
+                  height: 100.0,
+                  child: const Image(image: AssetImage('assets/logo_ovo.png')),
                 ),
               ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.only(top: 50.0),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+              Center(
+                child: Container(
+                  width: MediaQuery.of(context).size.width * 12 / 16,
+                  child: TextField(
+                    decoration: InputDecoration(
+                      hintText: 'Enter Phone Number',
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(color: Colors.green),
+                          borderRadius: BorderRadius.circular(10.0)),
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(top: 50.0),
+                child: Wrap(
+                  alignment: WrapAlignment.center,
+                  spacing: 8.0, // Space between items in the same row
+                  runSpacing: 8.0, // Space between rows
                   children: [
                     GestureDetector(
                       onTap: () =>
-                          _showModal(context, "Rp.50.000", "248 Point"),
-                      child: CustomCard(point: "Rp 50.000", value: "248 Point"),
+                          _showModal(context, "Rp.25.000", "248 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.25.000", value: "248 Point"),
                     ),
                     GestureDetector(
                       onTap: () =>
-                          _showModal(context, "Rp.100.000", "490 Point"),
-                      child:
-                          CustomCard(point: "Rp 100.000", value: "490 Point"),
+                          _showModal(context, "Rp.50.000", "490 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.50.000", value: "490 Point"),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _showModal(context, "Rp.75.000", "700 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.75.000", value: "700 Point"),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _showModal(context, "Rp.100.000", "800 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.100.000", value: "800 Point"),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _showModal(context, "Rp.500.000", "3996 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.500.000", value: "3996 Point"),
+                    ),
+                    GestureDetector(
+                      onTap: () =>
+                          _showModal(context, "Rp.1.000.000", "7500 Point"),
+                      child: CustomCardTransaction(
+                          point: "Rp.1.000.000", value: "7500 Point"),
                     ),
                   ],
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.50.000", "248 Point"),
-                      child: CustomCard(point: "Rp 50.000", value: "248 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.100.000", "490 Point"),
-                      child:
-                          CustomCard(point: "Rp 100.000", value: "490 Point"),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.50.000", "248 Point"),
-                      child: CustomCard(point: "Rp 50.000", value: "248 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.100.000", "490 Point"),
-                      child:
-                          CustomCard(point: "Rp 100.000", value: "490 Point"),
-                    ),
-                  ],
-                )
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
-      ),
-    );
+        ));
   }
 }
 
-class CustomCard extends StatelessWidget {
+class CustomCardTransaction extends StatelessWidget {
   final String point;
   final String value;
 
-  const CustomCard({
+  const CustomCardTransaction({
     Key? key,
     required this.point,
     required this.value,
@@ -356,55 +364,54 @@ class CustomCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(8.0), // Add margin between cards
+      width: 150.0,
+      height: 108,
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
         elevation: 4.0,
-        child: Container(
-          width: 130.0,
-          height: 90.0,
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 55.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10)),
-                  border: Border.all(color: Colors.black, width: 0.5),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              alignment: Alignment.center,
+              height: 50.0,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
                 ),
-                child: Center(
-                  child: Text(
-                    point,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w900,
-                      fontSize: 18,
-                    ),
-                  ),
+                color: Colors.white,
+              ),
+              child: Text(
+                point,
+                style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
-              Container(
-                width: double.infinity,
-                height: 35.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(10),
-                        bottomRight: Radius.circular(10)),
-                    color: Colors.green),
-                child: Center(
-                  child: Text(
-                    value,
-                    style: TextStyle(color: Colors.white),
-                  ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              height: 50.0,
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10),
+                ),
+                color: Colors.green,
+              ),
+              child: Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -2,7 +2,6 @@ import 'package:bottlend_apps/pages/homepage.dart';
 import 'package:flutter/material.dart';
 
 class ButtonList extends StatelessWidget {
-  
   final String imagePath;
   final VoidCallback onPressed;
 
@@ -24,14 +23,14 @@ class ButtonList extends StatelessWidget {
                 color: Colors.grey.withOpacity(0.5), // Shadow color
                 spreadRadius: 2,
                 blurRadius: 5,
-                offset: Offset(0, 3), // changes position of shadow
+                offset: const Offset(0, 3), // changes position of shadow
               ),
             ],
           ),
           child: TextButton(
-            onPressed: () {},
+            onPressed: onPressed,
             style: TextButton.styleFrom(
-              padding: EdgeInsets.all(6.0),
+              padding: const EdgeInsets.all(6.0),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20.0),
               ),
