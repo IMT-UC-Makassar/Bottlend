@@ -1,6 +1,6 @@
 {
-    "name": "bottlend_apps",
-    "short_name": "bottlend_apps",
+    "name": "bottlend2",
+    "short_name": "bottlend2",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
