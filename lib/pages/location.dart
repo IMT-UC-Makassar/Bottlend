@@ -14,7 +14,9 @@ class LocationPage extends StatelessWidget {
             const Border(bottom: BorderSide(color: Colors.black, width: 1.5)),
         title: const Text(
           'Location',
-          style: TextStyle(color: Color.fromRGBO(24, 146, 24, 1)),
+          style: TextStyle(
+              color: Color.fromRGBO(24, 146, 24, 1),
+              fontWeight: FontWeight.bold),
         ),
         backgroundColor: Colors.white,
       ),

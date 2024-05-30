@@ -34,6 +34,7 @@ dependencies:
   flutter_barcode_scanner: ^2.0.0
   cupertino_icons: ^1.0.2
   icon_forest: ^1.1.8
+  image_picker: ^1.0.8
   google_maps_flutter: ^2.0.1
   flutter_map: ^6.1.0
   latlong2: ^0.9.1

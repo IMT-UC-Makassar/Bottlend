@@ -73,6 +73,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
               child: Column(
                 children: [
                   CupertinoSegmentedControl<String>(
+                    borderColor: const Color(0xff189218),
                     children: {
                       'Region': _buildSegment('Region'),
                       'National': _buildSegment('National'),

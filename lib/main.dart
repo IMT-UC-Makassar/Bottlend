@@ -4,7 +4,7 @@ import 'app_state.dart';
 import 'pages/homepage.dart';
 import 'pages/leaderboardpage.dart';
 import 'pages/location.dart';
-import 'pages/profile.dart';
+import 'pages/profilepage.dart';
 import 'pages/scannerpage.dart';
 
 void main() {
