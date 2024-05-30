@@ -22,13 +22,14 @@ class _HomePageState extends State<HomePage> {
     'Tri',
     'Allobank'
   ];
-  int timeRemaining = 6;
-  int bottleDone = 2;
-  int bottleRemaining = 8;
 
   @override
   Widget build(BuildContext context) {
     final appState = AppState.of(context);
+
+    int timeRemaining = 6;
+    int bottleDone = appState.bottleCollected;
+    int bottleRemaining = 8;
 
     return Scaffold(
       appBar: AppBar(
@@ -42,7 +43,10 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    final appState = AppState.of(context).bottleCollected;
+                    print(appState);
+                  },
                   icon: const Icon(Icons.notifications_outlined),
                   color: Colors.black,
                 ),

@@ -42,7 +42,7 @@ class _QRScannerPageState extends State<QRScannerPage> {
       appState.incrementPoints();
 
       String formattedDate = DateFormat('dd/MM/yyyy').format(DateTime.now());
-      appState.addHistory('Bottle Scanned', formattedDate, '+10 Points');
+      appState.addHistory('Bottle Scanned', formattedDate, '10 Points');
     }
   }
 

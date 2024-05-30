@@ -29,12 +29,14 @@ class HistoryPage extends StatelessWidget {
       body: ListView.builder(
         itemCount: historyList.length,
         itemBuilder: (BuildContext context, int index) {
-          final action = historyList[index]["action"];
-          final date = historyList[index]["date"];
-          final pointChange = historyList[index]["pointChange"];
+          final action =
+              historyList[(historyList.length - 1) - index]["action"];
+          final date = historyList[(historyList.length - 1) - index]["date"];
+          final pointChange =
+              historyList[(historyList.length - 1) - index]["pointChange"];
           IconData iconData;
           Color textColor;
-          if (pointChange.startsWith('+')) {
+          if (action.startsWith('Bottle')) {
             iconData = Icons.add;
             textColor = Colors.green;
           } else {

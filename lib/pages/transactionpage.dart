@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:bottlend_apps/app_state.dart';
+import 'package:intl/intl.dart';
 
 class Transactionpage extends StatefulWidget {
   final void Function(int) decrementPoints;
@@ -212,6 +213,12 @@ class _Transactionpagestate extends State<Transactionpage> {
                       onPressed: () {
                         // Decrement points using the passed decrementPoints function
                         widget.decrementPoints(pointCost);
+                        final appState = AppState.of(context);
+
+                        String formattedDate =
+                            DateFormat('dd/MM/yyyy').format(DateTime.now());
+                        appState.addHistory(
+                            'Exchange OVO $point', formattedDate, value);
                         // Close both the confirmation dialog and the modal
                         Navigator.of(context)
                             .pop(); // Close the confirmation dialog
