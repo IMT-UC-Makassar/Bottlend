@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -147,21 +149,14 @@ class ProfilePage extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  // Navigate to EditProfilePage
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        appBar: AppBar(
-                          title: Text('Edit Profile'),
-                        ),
-                        body: Center(
-                          child: Text('Edit Profile Page'),
-                        ),
-                      ),
-                    ),
-                  );
-                },
+                
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => EditProfilePage(),
+                  ),
+                );
+              },
                 style: ElevatedButton.styleFrom(
       primary: Colors.green, // Warna tombol hijau
       shape: RoundedRectangleBorder(
@@ -178,7 +173,91 @@ class ProfilePage extends StatelessWidget {
   }
 }
 
+class EditProfilePage extends StatefulWidget {
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  File? _image;
+  final _nameController = TextEditingController();
+  final _numberController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Edit Profile'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              GestureDetector(
+                onTap: _pickImage,
+                child: CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: _image != null ? FileImage(_image!) : null,
+                  child: _image == null
+                      ? Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: 50,
+                        )
+                      : null,
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _nameController,
+                decoration: InputDecoration(
+                  labelText: 'Nama',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 20),
+              TextFormField(
+                controller: _numberController,
+                decoration: InputDecoration(
+                  labelText: 'Nomor',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  // Implementasikan logika untuk menyimpan perubahan profil
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                ),
+                child: Text('Simpan Perubahan'),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 void main() => runApp(MaterialApp(
   debugShowCheckedModeBanner: false,
-      home: ProfilePage(),
-    ));
+  home: ProfilePage(),
+));
