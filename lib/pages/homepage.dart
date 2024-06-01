@@ -4,6 +4,7 @@ import 'package:bottlend_apps/pages/transactionpage.dart';
 import 'package:bottlend_apps/widgets/button.dart';
 import 'package:bottlend_apps/widgets/customcard.dart';
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart'; // Import rflutter_alert
 import '../app_state.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,6 +24,8 @@ class _HomePageState extends State<HomePage> {
     'Allobank'
   ];
 
+  bool isDailyQuestClaimed = false; // Add this variable to track claim status
+
   void claimAchievement(int bonusPoints) {
     setState(() {
       final appState = AppState.of(context);
@@ -30,13 +33,105 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  int _limitedBottleDone(int bottleDone, int bottleRemaining) {
+    return bottleDone > bottleRemaining ? bottleRemaining : bottleDone;
+  }
+
+  Widget buildDailyQuestCard(int bottleDone, int bottleRemaining,
+      int bonusPoints, VoidCallback onClaim) {
+    bool isClaimable = bottleDone >= bottleRemaining && !isDailyQuestClaimed;
+    int limitedBottleDone = _limitedBottleDone(bottleDone, bottleRemaining);
+
+    return Container(
+      padding: const EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: const Color.fromRGBO(24, 146, 24, 1)),
+        borderRadius: const BorderRadius.all(Radius.circular(20)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 3,
+            blurRadius: 5,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Image.asset(
+                    'lib/assets/dailyq.png',
+                    width: 50,
+                    height: 50,
+                  ),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Daily Quest',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15,
+                        ),
+                      ),
+                      Text(
+                        'Reward: $bonusPoints Bottle Points',
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              ElevatedButton(
+                onPressed: isClaimable ? onClaim : null,
+                child: Text(isDailyQuestClaimed ? 'Claimed' : 'Claim'),
+                style: ElevatedButton.styleFrom(
+                  primary: isClaimable
+                      ? const Color.fromRGBO(24, 146, 24, 1)
+                      : Colors.grey,
+                ),
+              )
+            ],
+          ),
+          const SizedBox(height: 15),
+          Container(
+            width: double.infinity,
+            child: Text(
+              '$limitedBottleDone of $bottleRemaining deliveries completed',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                color: Colors.black.withOpacity(0.6),
+              ),
+            ),
+          ),
+          const SizedBox(height: 5),
+          LinearProgressIndicator(
+            value: limitedBottleDone / bottleRemaining,
+            backgroundColor: Colors.grey[200],
+            color: const Color.fromRGBO(24, 146, 24, 1),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = AppState.of(context);
 
-    int timeRemaining = 6;
     int bottleDone = appState.bottleCollected;
-    int bottleRemaining = 8;
+    int bottleRemaining = 8; // Update this value as necessary
+    int bonusPoints = 50; // Update this value as necessary
 
     return Scaffold(
       appBar: AppBar(
@@ -214,61 +309,36 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: 30),
             // Daily quest
             Padding(
-              padding: const EdgeInsets.only(left: 30, right: 30),
-              child: Container(
-                decoration: BoxDecoration(
-                  border:
-                      Border.all(color: const Color.fromRGBO(24, 146, 24, 1)),
-                  borderRadius: const BorderRadius.all(Radius.circular(20)),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(30, 15, 30, 15),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset('lib/assets/dailyq.png'),
-                          Column(
-                            children: [
-                              const Text(
-                                'Daily Quest',
-                                style: TextStyle(fontWeight: FontWeight.bold),
-                              ),
-                              Row(
-                                children: [
-                                  const SizedBox(width: 18),
-                                  const Icon(
-                                    Icons.access_time_sharp,
-                                    color: Colors.red,
-                                    size: 12,
-                                  ),
-                                  const SizedBox(width: 2),
-                                  Text(
-                                    '$timeRemaining Hours Left',
-                                    style: const TextStyle(color: Colors.red),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      Container(
-                        width: MediaQuery.of(context).size.width * 1,
-                        child: Text(
-                            '$bottleDone of $bottleRemaining deliveries completed'),
-                      ),
-                      const SizedBox(height: 5),
-                      LinearProgressIndicator(
-                        value: bottleDone / bottleRemaining,
-                        backgroundColor: Colors.white,
-                        color: const Color.fromRGBO(24, 146, 24, 1),
-                      ),
+              padding: const EdgeInsets.symmetric(horizontal: 30.0),
+              child: buildDailyQuestCard(
+                bottleDone,
+                bottleRemaining,
+                bonusPoints,
+                () {
+                  setState(() {
+                    appState.claimAchievement(bonusPoints);
+                    isDailyQuestClaimed = true; // Update claim status
+                  });
+                  Alert(
+                    context: context,
+                    type: AlertType.success,
+                    title: "Success",
+                    desc: "You have successfully claimed the Daily Quest!",
+                    buttons: [
+                      DialogButton(
+                        color: const Color(0xff189218),
+                        child: const Text(
+                          "OK",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        width: 120,
+                      )
                     ],
-                  ),
-                ),
+                  ).show();
+                },
               ),
             ),
             const SizedBox(height: 20),
