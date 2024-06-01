@@ -1,5 +1,7 @@
+import 'package:bottlend_apps/pages/achievementpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:bottlend_apps/app_state.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);
@@ -35,6 +37,8 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = AppState.of(context);
+
     return Scaffold(
       appBar: AppBar(
         shape:
@@ -48,12 +52,38 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
           ),
         ),
         actions: [
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.stars,
-              color: Colors.black,
-            ),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => AchievementCard()));
+                },
+                icon: const Icon(
+                  Icons.stars,
+                  color: Colors.black,
+                ),
+              ),
+              if (appState.hasClaimableAchievements())
+                Positioned(
+                  right: 11,
+                  top: 11,
+                  child: Container(
+                    padding: const EdgeInsets.all(2),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                  ),
+                ),
+            ],
           ),
           IconButton(
             onPressed: () {},
@@ -250,14 +280,16 @@ class PodiumPlace extends StatelessWidget {
                 name,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  color: textColor,
+                  fontSize: rank == 1 ? 20 : 16,
                 ),
               ),
               Text(
-                "$bottles Bottles",
+                '$bottles Bottles',
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
                   color: textColor,
-                  fontSize: 14,
+                  fontSize: rank == 1 ? 18 : 14,
                 ),
               ),
             ],

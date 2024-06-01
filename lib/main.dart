@@ -1,4 +1,3 @@
-// main.dart
 import 'package:flutter/material.dart';
 import 'app_state.dart';
 import 'pages/homepage.dart';
@@ -22,6 +21,32 @@ class _MyAppState extends State<MyApp> {
   int bottlePoint = 5000; // Example initial points
   int bottleCollected = 0;
   List<Map<String, dynamic>> historyList = [];
+  List<Map<String, dynamic>> achievements = [
+    {
+      'title': 'Master Baiter',
+      'bottleRemaining': 4,
+      'bonusPoints': 10,
+      'isClaimed': false
+    },
+    {
+      'title': 'Johan Master',
+      'bottleRemaining': 9,
+      'bonusPoints': 20,
+      'isClaimed': false
+    },
+    {
+      'title': 'Picker Ball',
+      'bottleRemaining': 11,
+      'bonusPoints': 30,
+      'isClaimed': false
+    },
+    {
+      'title': 'Man in The Middle',
+      'bottleRemaining': 18,
+      'bonusPoints': 50,
+      'isClaimed': false
+    },
+  ];
 
   void _incrementPoints() {
     setState(() {
@@ -46,15 +71,30 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  void _claimAchievement(int bonusPoints) {
+    setState(() {
+      bottlePoint += bonusPoints;
+    });
+  }
+
+  void _markAchievementAsClaimed(int index) {
+    setState(() {
+      achievements[index]['isClaimed'] = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppState(
       bottlePoint: bottlePoint,
       bottleCollected: bottleCollected,
       historyList: historyList,
+      achievements: achievements,
       incrementPoints: _incrementPoints,
       decrementPoints: _decrementPoints,
       addHistory: _addHistory,
+      claimAchievement: _claimAchievement,
+      markAchievementAsClaimed: _markAchievementAsClaimed,
       child: const MaterialApp(
         home: MainScreen(),
         debugShowCheckedModeBanner: false,

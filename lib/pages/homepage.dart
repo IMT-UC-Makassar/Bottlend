@@ -23,6 +23,13 @@ class _HomePageState extends State<HomePage> {
     'Allobank'
   ];
 
+  void claimAchievement(int bonusPoints) {
+    setState(() {
+      final appState = AppState.of(context);
+      appState.bottlePoint += bonusPoints; // Add bonus points to bottlePoint
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final appState = AppState.of(context);
@@ -43,10 +50,7 @@ class _HomePageState extends State<HomePage> {
             Row(
               children: [
                 IconButton(
-                  onPressed: () {
-                    final appState = AppState.of(context).bottleCollected;
-                    print(appState);
-                  },
+                  onPressed: () {},
                   icon: const Icon(Icons.notifications_outlined),
                   color: Colors.black,
                 ),
@@ -277,11 +281,11 @@ class _HomePageState extends State<HomePage> {
                   const Text(
                     'Bottlend Product',
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20,
-                    ),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: const Color.fromRGBO(24, 146, 24, 1)),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 20),
                   GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
