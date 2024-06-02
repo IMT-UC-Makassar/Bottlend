@@ -169,94 +169,108 @@ class _Transactionpagestate extends State<Transactionpage> {
 
   void _showConfirmationDialog(
       BuildContext context, String point, String value) {
+    final appState = AppState.of(context);
     int pointCost = int.parse(
         value.split(' ')[0]); // Extract the numeric value from the string
 
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return Dialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Exchange $value into ${widget.walletName} Cash $point?',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(); // Close the dialog
-                      },
-                      style: TextButton.styleFrom(
-                        side: const BorderSide(color: Colors.red),
-                        backgroundColor: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        'No',
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        // Decrement points using the passed decrementPoints function
-                        widget.decrementPoints(pointCost);
-                        final appState = AppState.of(context);
-
-                        String formattedDate =
-                            DateFormat('dd/MM/yyyy').format(DateTime.now());
-                        appState.addHistory(
-                            'Exchange ${widget.walletName} $point',
-                            formattedDate,
-                            value);
-                        // Close both the confirmation dialog and the modal
-                        Navigator.of(context)
-                            .pop(); // Close the confirmation dialog
-                        Navigator.of(context).pop(); // Close the bottom modal
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Exchange Successful!')),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text(
-                        'Yes',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+    if (appState.bottlePoint >= pointCost) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return Dialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
             ),
-          ),
-        );
-      },
-    );
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Exchange $value into ${widget.walletName} Cash $point?',
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(); // Close the dialog
+                        },
+                        style: TextButton.styleFrom(
+                          side: const BorderSide(color: Colors.red),
+                          backgroundColor: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'No',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          // Decrement points using the passed decrementPoints function
+                          widget.decrementPoints(pointCost);
+
+                          String formattedDate =
+                              DateFormat('dd/MM/yyyy').format(DateTime.now());
+                          appState.addHistory(
+                              'Exchange ${widget.walletName} $point',
+                              formattedDate,
+                              value);
+                          // Close both the confirmation dialog and the modal
+                          Navigator.of(context)
+                              .pop(); // Close the confirmation dialog
+                          Navigator.of(context).pop(); // Close the bottom modal
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                content: Text('Exchange Successful!')),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Colors.green,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: const Text(
+                          'Yes',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 18,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      );
+    } else {
+      // Close the bottom modal
+      Navigator.of(context).pop();
+
+      // Show error message
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Insufficient Bottle Points for this exchange.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
