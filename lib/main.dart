@@ -96,7 +96,7 @@ class _MyAppState extends State<MyApp> {
       claimAchievement: _claimAchievement,
       markAchievementAsClaimed: _markAchievementAsClaimed,
       child: MaterialApp(
-        home: HomePage(),
+        home: MainScreen(),
         debugShowCheckedModeBanner: false,
       ),
     );
@@ -116,15 +116,22 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomePage(),
     LocationPage(),
-    QRScannerPage(),
     const LeaderboardPage(),
     ProfilePage()
   ];
 
   void _onTabTapped(int index) {
-    setState(() {
-      _currentIndex = index;
-    });
+    if (index == 2) {
+      // Navigate to QRScannerPage when the QR scanner tab is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => QRScannerPage()),
+      );
+    } else {
+      setState(() {
+        _currentIndex = index;
+      });
+    }
   }
 
   @override
