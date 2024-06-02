@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:bottlend_apps/app_state.dart';
+import 'package:bottlend/app_state.dart';
 
 class AchievementCard extends StatefulWidget {
   @override

@@ -1,7 +1,7 @@
-import 'package:bottlend_apps/pages/achievementpage.dart';
+import 'package:bottlend/pages/achievementpage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:bottlend_apps/app_state.dart';
+import 'package:bottlend/app_state.dart';
 
 class LeaderboardPage extends StatefulWidget {
   const LeaderboardPage({Key? key}) : super(key: key);

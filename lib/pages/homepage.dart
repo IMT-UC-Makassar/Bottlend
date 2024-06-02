@@ -1,8 +1,8 @@
 import 'dart:math' as math;
-import 'package:bottlend_apps/pages/historypage.dart';
-import 'package:bottlend_apps/pages/transactionpage.dart';
-import 'package:bottlend_apps/widgets/button.dart';
-import 'package:bottlend_apps/widgets/customcard.dart';
+import 'package:bottlend/pages/historypage.dart';
+import 'package:bottlend/pages/transactionpage.dart';
+import 'package:bottlend/widgets/button.dart';
+import 'package:bottlend/widgets/customcard.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart'; // Import rflutter_alert
 import '../app_state.dart';
@@ -35,6 +35,22 @@ class _HomePageState extends State<HomePage> {
 
   int _limitedBottleDone(int bottleDone, int bottleRemaining) {
     return bottleDone > bottleRemaining ? bottleRemaining : bottleDone;
+  }
+
+  String _timeRemainingUntilReset() {
+    final now = DateTime.now();
+    final resetTime =
+        DateTime(now.year, now.month, now.day + 1, 0, 0, 0).toLocal();
+    Duration durationUntilReset = resetTime.difference(now);
+
+    final hours = durationUntilReset.inHours;
+    final minutes = durationUntilReset.inMinutes % 60;
+
+    if (hours > 0) {
+      return '$hours hours left';
+    } else {
+      return '$minutes minutes left';
+    }
   }
 
   Widget buildDailyQuestCard(int bottleDone, int bottleRemaining,
@@ -120,6 +136,20 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.grey[200],
             color: const Color.fromRGBO(24, 146, 24, 1),
           ),
+          const SizedBox(height: 15),
+          Row(
+            children: [
+              Icon(Icons.access_time, size: 16, color: Colors.grey[600]),
+              const SizedBox(width: 5),
+              Text(
+                _timeRemainingUntilReset(),
+                style: TextStyle(
+                  fontSize: 12,
+                  color: Colors.grey[600],
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
@@ -141,7 +171,11 @@ class _HomePageState extends State<HomePage> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Image.asset('lib/assets/logo.png'),
+            Image.asset(
+              'lib/assets/logo.png',
+              width: 62,
+              height: 70,
+            ),
             Row(
               children: [
                 IconButton(
@@ -275,7 +309,6 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            // List E-Wallet
             const SizedBox(height: 30),
             Container(
               width: MediaQuery.of(context).size.width * 0.8,
@@ -288,17 +321,21 @@ class _HomePageState extends State<HomePage> {
                   (index) => Column(
                     children: [
                       ButtonList(
-                        imagePath:
-                            'lib/assets/${buttonList[index].toLowerCase()}.png',
-                        onPressed: () {
-                          Navigator.push(
+                          imagePath:
+                              'lib/assets/${buttonList[index].toLowerCase()}.png',
+                          onPressed: () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => Transactionpage(
-                                      decrementPoints: appState
-                                          .decrementPoints))); // Pass decrementPoints
-                        },
-                      ),
+                                builder: (context) => Transactionpage(
+                                  decrementPoints: appState.decrementPoints,
+                                  walletName: buttonList[index],
+                                  logoPath:
+                                      'lib/assets/${buttonList[index].toLowerCase()}_panjang.png', // Add _panjang here
+                                ),
+                              ),
+                            );
+                          }),
                       const SizedBox(height: 5),
                       Text(buttonList[index]),
                     ],
@@ -316,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                 bonusPoints,
                 () {
                   setState(() {
-                    appState.claimAchievement(bonusPoints);
+                    claimAchievement(bonusPoints);
                     isDailyQuestClaimed = true; // Update claim status
                   });
                   Alert(
@@ -353,7 +390,7 @@ class _HomePageState extends State<HomePage> {
                     style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
-                        color: const Color.fromRGBO(24, 146, 24, 1)),
+                        color: Color.fromRGBO(24, 146, 24, 1)),
                   ),
                   const SizedBox(height: 20),
                   GridView.builder(

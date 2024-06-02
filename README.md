@@ -1,4 +1,4 @@
-# bottlend_apps
+# bottlend
 
 A new Flutter project.
 

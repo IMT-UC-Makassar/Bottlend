@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:bottlend_apps/app_state.dart';
+import 'package:bottlend/app_state.dart';
 import 'package:intl/intl.dart';
 
 class Transactionpage extends StatefulWidget {
   final void Function(int) decrementPoints;
+  final String walletName; // Add this parameter
+  final String logoPath; // Add this parameter
 
-  const Transactionpage({Key? key, required this.decrementPoints})
-      : super(key: key);
+  const Transactionpage({
+    Key? key,
+    required this.decrementPoints,
+    required this.walletName, // Add this parameter
+    required this.logoPath, // Add this parameter
+  }) : super(key: key);
 
   @override
   State<Transactionpage> createState() => _Transactionpagestate();
@@ -179,7 +185,7 @@ class _Transactionpagestate extends State<Transactionpage> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Exchange $value into OVO Cash $point?',
+                  'Exchange $value into ${widget.walletName} Cash $point?',
                   style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -218,7 +224,9 @@ class _Transactionpagestate extends State<Transactionpage> {
                         String formattedDate =
                             DateFormat('dd/MM/yyyy').format(DateTime.now());
                         appState.addHistory(
-                            'Exchange OVO $point', formattedDate, value);
+                            'Exchange ${widget.walletName} $point',
+                            formattedDate,
+                            value);
                         // Close both the confirmation dialog and the modal
                         Navigator.of(context)
                             .pop(); // Close the confirmation dialog
@@ -254,107 +262,102 @@ class _Transactionpagestate extends State<Transactionpage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-              icon: const Icon(Icons.arrow_back, color: Colors.black),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          title: const Text(
-            'Points Exchange',
-            style: TextStyle(
-                color: Color(0xff189218), fontWeight: FontWeight.w900),
-          ),
-          bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(1.0),
-            child: Divider(
-              color: Colors.black,
-              thickness: 1,
-            ),
-          ),
-          actions: [
-            IconButton(
-                onPressed: _refreshpage,
-                icon: const Icon(
-                  Icons.refresh,
-                  color: Colors.black,
-                ))
-          ],
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        shape:
+            const Border(bottom: BorderSide(color: Colors.black, width: 1.5)),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
-        body: SingleChildScrollView(
-          child: Column(
-            children: [
-              Center(
-                child: Container(
-                  width: 150.0,
-                  height: 100.0,
-                  child: const Image(image: AssetImage('assets/logo_ovo.png')),
-                ),
+        title: Text(
+          'Points Exchange - ${widget.walletName}', // Display wallet name
+          style: const TextStyle(
+              color: Color(0xff189218), fontWeight: FontWeight.w900),
+        ),
+        actions: [
+          IconButton(
+            onPressed: _refreshpage,
+            icon: const Icon(
+              Icons.refresh,
+              color: Colors.black,
+            ),
+          )
+        ],
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Center(
+              child: Container(
+                width: 150.0,
+                height: 100.0,
+                child:
+                    Image(image: AssetImage(widget.logoPath)), // Display logo
               ),
-              Center(
-                child: Container(
-                  width: MediaQuery.of(context).size.width * 12 / 16,
-                  child: TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Enter Phone Number',
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: const BorderSide(color: Colors.green),
-                          borderRadius: BorderRadius.circular(10.0)),
+            ),
+            Center(
+              child: Container(
+                width: MediaQuery.of(context).size.width * 12 / 16,
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Enter Phone Number',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(color: Colors.green),
+                      borderRadius: BorderRadius.circular(10.0),
                     ),
                   ),
                 ),
               ),
-              Container(
-                margin: const EdgeInsets.only(top: 50.0),
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8.0, // Space between items in the same row
-                  runSpacing: 8.0, // Space between rows
-                  children: [
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.25.000", "248 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.25.000", value: "248 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.50.000", "490 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.50.000", value: "490 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.75.000", "700 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.75.000", value: "700 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.100.000", "800 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.100.000", value: "800 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.500.000", "3996 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.500.000", value: "3996 Point"),
-                    ),
-                    GestureDetector(
-                      onTap: () =>
-                          _showModal(context, "Rp.1.000.000", "7500 Point"),
-                      child: CustomCardTransaction(
-                          point: "Rp.1.000.000", value: "7500 Point"),
-                    ),
-                  ],
-                ),
+            ),
+            Container(
+              margin: const EdgeInsets.only(top: 50.0),
+              child: Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 8.0, // Space between items in the same row
+                runSpacing: 8.0, // Space between rows
+                children: [
+                  GestureDetector(
+                    onTap: () => _showModal(context, "Rp.25.000", "248 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.25.000", value: "248 Point"),
+                  ),
+                  GestureDetector(
+                    onTap: () => _showModal(context, "Rp.50.000", "490 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.50.000", value: "490 Point"),
+                  ),
+                  GestureDetector(
+                    onTap: () => _showModal(context, "Rp.75.000", "700 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.75.000", value: "700 Point"),
+                  ),
+                  GestureDetector(
+                    onTap: () => _showModal(context, "Rp.100.000", "800 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.100.000", value: "800 Point"),
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        _showModal(context, "Rp.500.000", "3996 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.500.000", value: "3996 Point"),
+                  ),
+                  GestureDetector(
+                    onTap: () =>
+                        _showModal(context, "Rp.1.000.000", "7500 Point"),
+                    child: CustomCardTransaction(
+                        point: "Rp.1.000.000", value: "7500 Point"),
+                  ),
+                ],
               ),
-            ],
-          ),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

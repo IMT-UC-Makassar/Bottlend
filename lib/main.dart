@@ -95,8 +95,8 @@ class _MyAppState extends State<MyApp> {
       addHistory: _addHistory,
       claimAchievement: _claimAchievement,
       markAchievementAsClaimed: _markAchievementAsClaimed,
-      child: const MaterialApp(
-        home: MainScreen(),
+      child: MaterialApp(
+        home: HomePage(),
         debugShowCheckedModeBanner: false,
       ),
     );
