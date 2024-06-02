@@ -131,7 +131,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             name: "Orang Pintar",
                             bottles: 1755,
                             imagePath: 'lib/assets/gambarorang.webp',
-                            trophyPath: 'assets/Piala_3rd.png',
+                            trophyPath: 'lib/assets/Piala_3rd.png',
                             podiumHeight: 100,
                             textColor: Colors.brown,
                           ),
@@ -144,7 +144,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             name: "Jiovani",
                             bottles: 1990,
                             imagePath: 'lib/assets/Johan.png',
-                            trophyPath: 'assets/Piala_1st.png',
+                            trophyPath: 'lib/assets/Piala_1st.png',
                             podiumHeight: 150,
                             textColor: Colors.yellow,
                           ),
@@ -158,7 +158,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                             name: "Orang Utan",
                             bottles: 1873,
                             imagePath: 'lib/assets/gambarutan.jpeg',
-                            trophyPath: 'assets/Piala_2nd.webp',
+                            trophyPath: 'lib/assets/Piala_2nd.webp',
                             podiumHeight: 125,
                             textColor: Colors.grey,
                           ),
@@ -184,7 +184,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                         mark: 0.0,
                         name: "Orang$index",
                         bottles: 1300 - index,
-                        imagePath: 'assets/EmotBatu.png',
+                        imagePath: 'lib/assets/EmotBatu.png',
                       ),
                     if (numbers[index] == 4)
                       ListLeaderboard(
@@ -192,7 +192,7 @@ class _LeaderboardPageState extends State<LeaderboardPage> {
                         mark: 30.0,
                         name: "Orang$index",
                         bottles: 1300 - index,
-                        imagePath: 'assets/EmotBatu.png',
+                        imagePath: 'lib/assets/EmotBatu.png',
                       ),
                     if (index < numbers.length - 1)
                       const Divider(
