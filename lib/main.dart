@@ -116,22 +116,15 @@ class _MainScreenState extends State<MainScreen> {
   final List<Widget> _pages = [
     HomePage(),
     LocationPage(),
+    QRScannerPage(),
     const LeaderboardPage(),
     ProfilePage()
   ];
 
   void _onTabTapped(int index) {
-    if (index == 2) {
-      // Navigate to QRScannerPage when the QR scanner tab is tapped
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => QRScannerPage()),
-      );
-    } else {
-      setState(() {
-        _currentIndex = index;
-      });
-    }
+    setState(() {
+      _currentIndex = index;
+    });
   }
 
   @override

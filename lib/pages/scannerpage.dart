@@ -1,4 +1,3 @@
-// scannerpage.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import '../app_state.dart';
@@ -11,12 +10,6 @@ class QRScannerPage extends StatefulWidget {
 
 class _QRScannerPageState extends State<QRScannerPage> {
   String _result = "Hasil scan QR akan ditampilkan di sini";
-
-  @override
-  void initState() {
-    super.initState();
-    _scanQR();
-  }
 
   Future<void> _scanQR() async {
     String barcodeScanRes;
