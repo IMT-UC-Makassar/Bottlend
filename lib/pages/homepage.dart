@@ -6,6 +6,7 @@ import 'package:bottlend/widgets/customcard.dart';
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart'; // Import rflutter_alert
 import '../app_state.dart';
+import 'package:bottlend/pages/checkoutpage.dart'; // Import halaman checkout
 
 class HomePage extends StatefulWidget {
   @override
@@ -407,34 +408,50 @@ class _HomePageState extends State<HomePage> {
                     itemBuilder: (context, index) {
                       String description = '';
                       int points = 0;
+                      String imagePath = ''; // Add imagePath variable
                       switch (index) {
                         case 0:
                           description = 'Sepatu Elite';
                           points = 150;
+                          imagePath =
+                              'lib/assets/merchandise_sepatu.jpg'; // Set image path
                           break;
                         case 1:
                           description = 'Baju Ganteng';
                           points = 120;
+                          imagePath =
+                              'lib/assets/merchandise_baju.jpg'; // Set image path
                           break;
                         case 2:
                           description = 'Tas Daun Ulang';
                           points = 200;
+                          imagePath =
+                              'lib/assets/merchandise_tas.jpg'; // Set image path
                           break;
                         case 3:
                           description = 'Topi UI/UX';
                           points = 80;
+                          imagePath =
+                              'lib/assets/merchandise_topi.jpg'; // Set image path
                           break;
                       }
                       return CustomCard(
                         description: description,
                         points: points,
-                        imagePath: 'lib/assets/merchandise_${[
-                          'sepatu',
-                          'baju',
-                          'tas',
-                          'topi'
-                        ][index]}.jpg',
-                        onPressed: () {},
+                        imagePath: imagePath, // Pass imagePath to CustomCard
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CheckoutPage(
+                                productDescription: description,
+                                productPoints: points,
+                                imagePath:
+                                    imagePath, // Pass imagePath to CheckoutPage
+                              ),
+                            ),
+                          );
+                        },
                       );
                     },
                   ),
